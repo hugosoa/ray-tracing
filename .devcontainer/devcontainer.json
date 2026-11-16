@@ -1,0 +1,19 @@
+{
+  "name": "raytracer (C++)",
+  "build": { "dockerfile": "Dockerfile" },
+  "remoteUser": "ubuntu",
+  "postCreateCommand": "cmake --preset debug",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools"
+      ],
+      "settings": {
+        "cmake.useCMakePresets": "always",
+        "cmake.configureOnOpen": true,
+        "editor.formatOnSave": true
+      }
+    }
+  }
+}
