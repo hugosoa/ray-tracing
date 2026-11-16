@@ -71,6 +71,24 @@ Install CMake ≥ 3.25, Ninja and a C++20 compiler:
 
 All commands are run from the repository root.
 
+### Shortcuts
+
+Short commands, like `npm run ...` in JavaScript projects. They only call the CMake commands below (see [ADR 4](docs/adr/0004-makefile-shortcuts.md)).
+
+```sh
+make build                 # configure (first time only) and compile
+make start                 # build, then run the ray tracer
+make start ARGS="Alice"    # same, with arguments
+make test                  # build, then run the unit tests
+make clean                 # delete the build folder
+```
+
+They use the `debug` preset by default. Pick another one with `PRESET`, for example `make test PRESET=release`.
+
+`make` is included in the dev container. Without it (native Windows), use the CMake commands below. Alternatively, `cmake --workflow --preset debug` configures, builds and tests in one command.
+
+### CMake commands
+
 ```sh
 cmake --preset debug          # configure (only needed once, or after editing CMakeLists.txt)
 cmake --build --preset debug  # compile

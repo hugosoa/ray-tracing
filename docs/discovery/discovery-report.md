@@ -124,11 +124,11 @@ C++ is also very free. It doesn't force one way to code: in Java everything must
 
 ### Programming paradigms
 
-C++ can be procedural (functions, like C), object-oriented (classes, inheritance) and generic (templates). It also has lambdas, like in JavaScript. Compared to JavaScript or PHP, it is stricter because types are checked when we compile.
+In C++, we can code with simple functions or with classes, like in JavaScript or PHP. The big difference is that C++ is stricter: each variable has a fixed type, and errors are found before the program runs.
 
 ### What to watch out for
 
-There is no garbage collector, so we have to manage the memory ourselves. If we forget to free memory, we get a memory leak. If we use memory that was already freed, the program can crash or give wrong results without any error. Smart pointers (`std::unique_ptr`, `std::shared_ptr`) help to avoid these problems.
+In JavaScript or PHP, the memory is cleaned automatically. In C++, it is not: we have to do it ourselves. If we make a mistake, the program can use too much memory or crash. C++ has tools to do this cleaning for us, called smart pointers.
 
 ### Shaping the domain model
 

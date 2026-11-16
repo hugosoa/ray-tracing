@@ -4,6 +4,8 @@ C++20 ray tracer. Run all commands from the repository root.
 
 ## Build, run, test
 
+Shortcuts (they only call the CMake commands below): `make build`, `make start`, `make test`, `make clean`; add `PRESET=release` to change preset.
+
 ```sh
 cmake --preset debug             # configure (once, or after editing a CMakeLists.txt)
 cmake --build --preset debug     # build
