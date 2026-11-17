@@ -1,37 +1,37 @@
-cmake_minimum_required(VERSION 3.25)
-
-project(raytracer
-    VERSION 0.1.0
-    DESCRIPTION "HETIC ray tracer"
-    LANGUAGES CXX
-)
+cmake_minimum_required(VERSION 3.20)
+project(raytracer VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
-# Lets clangd (Zed, VS Code clangd extension) understand the project.
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-option(RAYTRACER_BUILD_TESTS "Build the unit tests" ON)
-option(RAYTRACER_WARNINGS_AS_ERRORS "Treat compiler warnings as errors" OFF)
+# Main executable
+add_executable(raytracer
+  src/main.cpp
+  src/math/vector.cpp
+)
+# Lets the code write #include "math/vector.hpp"
+target_include_directories(raytracer PRIVATE src)
 
-# Shared warning flags, linked into every target we own (not third-party code).
-add_library(raytracer_warnings INTERFACE)
-if(MSVC)
-    target_compile_options(raytracer_warnings INTERFACE
-        /W4 /permissive-
-        $<$<BOOL:${RAYTRACER_WARNINGS_AS_ERRORS}>:/WX>
-    )
-else()
-    target_compile_options(raytracer_warnings INTERFACE
-        -Wall -Wextra -Wpedantic -Wshadow -Wconversion -Wsign-conversion
-        $<$<BOOL:${RAYTRACER_WARNINGS_AS_ERRORS}>:-Werror>
-    )
-endif()
+# Testing
+include(FetchContent)
+FetchContent_Declare(
+  Catch2
+  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+  GIT_TAG        v3.7.1
+)
+FetchContent_MakeAvailable(Catch2)
 
-add_subdirectory(src)
+enable_testing()
 
-if(RAYTRACER_BUILD_TESTS)
-    enable_testing()
-    add_subdirectory(tests)
-endif()
+add_executable(tests
+  tests/test_main.cpp
+  tests/math/vector_test.cpp
+  src/math/vector.cpp
+)
+# Lets the tests write #include "math/vector.hpp"
+target_include_directories(tests PRIVATE src)
+target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
+
+include(CTest)
+include(Catch)
+catch_discover_tests(tests)

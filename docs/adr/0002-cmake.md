@@ -1,4 +1,4 @@
-# 2. Use CMake and CTest to build and test
+# 0002 — Use CMake (with CTest)
 
 ## Status
 
@@ -6,24 +6,40 @@ Accepted
 
 ## Context
 
-The project needs a way to describe how the code is compiled (targets, C++20 standard, warning flags, dependencies) and a way to run the unit tests.
+The project must build on Windows, macOS, and Linux, and needs to integrate
+with VS Code (CMake Tools extension), Zed, and plain terminal workflows. It
+also needs to fetch Catch2 at configure time without requiring a separate
+package manager.
 
 Alternatives considered:
 
-- **Hand-written Makefiles:** simple at first, but tied to one toolchain and not usable as-is with MSVC.
-- **Other build systems** such as Meson or Bazel: capable, but less common in C++ projects and tools.
-- **CMake**, with CTest (shipped with CMake) as the test runner.
+- **Make / GNU Make** — simple, but not natively cross-platform (requires
+  MinGW or WSL on Windows) and lacks IDE integration.
+- **Meson** — modern and fast, but less familiar to most C++ developers and
+  less well-supported by common IDE extensions.
+- **Bazel** — powerful for large monorepos, but heavy overhead for a small
+  course project; steep learning curve.
 
 ## Decision
 
-We will use CMake (≥ 3.25) with the Ninja generator because it is the de facto standard build system for C++.
-
-The build is split into a library (`raytracer_core`), a thin executable (`raytracer`) and a test executable (`raytracer_tests`). Named configurations (`debug`, `release`, `ci`) live in `CMakePresets.json`. Tests are run with CTest (`ctest --preset <name>`).
+Use CMake (minimum version 3.20) as the build system, with CTest for running
+tests. `FetchContent` pulls Catch2 v3 at configure time, eliminating the need
+for a package manager. `catch_discover_tests` registers each `TEST_CASE` with
+CTest automatically.
 
 ## Consequences
 
-- Most documentation, examples and libraries assume CMake, and editors understand it (VS Code CMake Tools, clangd through `compile_commands.json`).
-- CTest comes with CMake, so the test runner needs no extra install.
-- CMake's language is verbose and has many old and new ways of doing the same thing, which makes it hard to learn for people new to C++.
-- Adding a source file means also adding it to the right `CMakeLists.txt`. Forgetting this is a common mistake.
-- CMake 3.25 or later is required, which older systems may not provide by default.
+**Positive:**
+- Works on all target platforms and integrates with VS Code (CMake Tools),
+  CLion, Zed, and the terminal without extra configuration.
+- `FetchContent` keeps the repository self-contained: no external package
+  manager or vendored copies needed.
+- CTest provides a uniform `ctest` invocation regardless of the test framework
+  used.
+
+**Negative:**
+- CMake's syntax is verbose and historically inconsistent; the learning curve
+  can be steep for participants unfamiliar with it.
+- `FetchContent` downloads Catch2 on first configure, which requires internet
+  access and adds a noticeable delay.
+- Minimum version 3.20 may not be pre-installed on older Linux distributions.

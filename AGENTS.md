@@ -1,24 +1,42 @@
-# AGENTS.md
+# Agents
 
-C++20 ray tracer. Run all commands from the repository root.
+## Commands
 
-## Build, run, test
-
-Shortcuts (they only call the CMake commands below): `make build`, `make start`, `make test`, `make clean`; add `PRESET=release` to change preset.
-
-```sh
-cmake --preset debug             # configure (once, or after editing a CMakeLists.txt)
-cmake --build --preset debug     # build
-./build/debug/src/raytracer      # run
-ctest --preset debug             # run the tests
+**Build:**
+```
+make build
 ```
 
-Other presets: `release`, `ci` (Release with warnings as errors, to check code before merging).
+**Run:**
+```
+make run
+```
+
+**Test:**
+```
+make test
+```
+
+**Clean:**
+```
+make clean
+```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for dev container setup, make commands, TDD workflow, and how to work with ADRs.
+
+See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for community standards.
 
 ## Architecture decisions
 
-Our architecture decisions are in `docs/adr/`. Read them before changing the build, the tools or the test setup.
+Our architecture decisions live in `docs/adr/`. Read them before changing the build system, tooling, or test setup.
 
-- Never go against an ADR whose status is Accepted.
-- To change a decision, write a new ADR in `docs/adr/` with status Proposed, then ask the user.
-- Never set an ADR's status to Accepted. Only the team does that.
+## Code style
+
+- Private member variables start with an underscore followed by a lowercase letter (`_x`, `_count`). Never use an underscore followed by an uppercase letter (`_X`): those names are reserved by the C++ standard.
+
+## Rules
+
+- Never go against an accepted ADR. To change a decision, write a new ADR with status `Proposed` and ask the user.
+- Never set an ADR status to `Accepted`.

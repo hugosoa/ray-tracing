@@ -1,9 +1,4 @@
-# Build output (one folder per CMake preset)
 build/
-
-# clangd index
 .cache/
-
-# OS / editor noise
-.DS_Store
-*.swp
+*.o
+*.a

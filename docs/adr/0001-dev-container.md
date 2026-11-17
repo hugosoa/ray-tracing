@@ -1,4 +1,4 @@
-# 1. Use a dev container for the development environment
+# 0001 — Use a Dev Container
 
 ## Status
 
@@ -6,23 +6,37 @@ Accepted
 
 ## Context
 
-Team members work on different operating systems (Windows, macOS, Linux). A C++ toolchain (compiler, CMake, Ninja, formatter, debugger) is installed and configured differently on each one, and versions drift between machines.
+Contributors join the project on Windows, macOS, and Linux, each with different
+compiler versions and tool installations. Without a shared environment,
+differences in GCC/Clang versions, CMake versions, or missing tools cause
+"works on my machine" failures during the course.
 
 Alternatives considered:
 
-- **Native toolchain on each machine:** each person installs CMake, Ninja and a C++20 compiler themselves (Xcode tools, apt packages, or Visual Studio 2022).
-- **Dev container:** a Docker image that holds the whole toolchain, opened by the editor or the Dev Container CLI.
+- **Native setup with documented prerequisites** — lower tooling overhead, but
+  requires every participant to install and version-match GCC ≥ 12, CMake ≥ 3.20,
+  and Git manually. Prone to drift and hard to debug during a live session.
+- **CI-only standardisation** — catches integration problems but does not help
+  during local development or live demos.
 
 ## Decision
 
-We will use a dev container (`.devcontainer/`) as the recommended environment, so that everyone gets exactly the same compiler and tools, whatever their OS.
-
-The image is based on Ubuntu 24.04 and contains GCC, Clang, CMake, Ninja, clang-format, clang-tidy, clangd and gdb. The native toolchain stays documented in the README as a fallback.
+Provide a `.devcontainer/devcontainer.json` backed by
+`mcr.microsoft.com/devcontainers/cpp:1-ubuntu-24.04`. VS Code and Zed open the
+project inside this container automatically. The `postCreateCommand` configures
+and builds the project on first launch, so participants arrive at a working
+state without manual steps.
 
 ## Consequences
 
-- Everyone builds with the same compiler and tool versions, so "it works on my machine" problems are less likely.
-- Every team member needs Docker running (on Windows, Docker Desktop with the WSL 2 backend).
-- The first start builds the image, which takes a few minutes.
-- Builds run inside a container, which can be slower than native, especially with Docker Desktop on Windows and macOS.
-- People who use the native fallback may end up with different compiler versions, so the guarantee only holds inside the container.
+**Positive:**
+- Every contributor uses the same compiler, CMake version, and Git, eliminating
+  environment-related failures during the course.
+- New contributors are productive within minutes of cloning the repository.
+
+**Negative:**
+- Requires Docker to be installed and running; Docker Desktop licencing may
+  be a constraint for some participants.
+- Container startup adds a one-time delay on first open.
+- Participants who prefer a native workflow must configure their own toolchain
+  to match the container's versions.
