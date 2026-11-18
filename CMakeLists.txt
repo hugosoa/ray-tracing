@@ -8,6 +8,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 add_executable(raytracer
   src/main.cpp
   src/math/vector.cpp
+  src/ray/ray.cpp
+  src/geometry/sphere.cpp
 )
 # Lets the code write #include "math/vector.hpp"
 target_include_directories(raytracer PRIVATE src)
@@ -26,7 +28,10 @@ enable_testing()
 add_executable(tests
   tests/test_main.cpp
   tests/math/vector_test.cpp
+  tests/ray/ray_test.cpp
   src/math/vector.cpp
+  src/ray/ray.cpp
+  src/geometry/sphere.cpp
 )
 # Lets the tests write #include "math/vector.hpp"
 target_include_directories(tests PRIVATE src)

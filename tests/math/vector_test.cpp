@@ -11,20 +11,20 @@ TEST_CASE("Adding two vectors adds each component", "[vector][add]") {
 
     Vector result = a + b;
 
-    REQUIRE(result.getX() == 5.0);
-    REQUIRE(result.getY() == 7.0);
-    REQUIRE(result.getZ() == 9.0);
+    REQUIRE(result.x() == 5.0);
+    REQUIRE(result.y() == 7.0);
+    REQUIRE(result.z() == 9.0);
 }
 
 TEST_CASE("Adding the zero vector gives the same vector", "[vector][add]") {
     Vector a(1.0, 2.0, 3.0);
-    Vector zero;
+    Vector zero(0.0, 0.0, 0.0);
 
     Vector result = a + zero;
 
-    REQUIRE(result.getX() == 1.0);
-    REQUIRE(result.getY() == 2.0);
-    REQUIRE(result.getZ() == 3.0);
+    REQUIRE(result.x() == 1.0);
+    REQUIRE(result.y() == 2.0);
+    REQUIRE(result.z() == 3.0);
 }
 
 TEST_CASE("Adding works with negative components", "[vector][add]") {
@@ -33,9 +33,9 @@ TEST_CASE("Adding works with negative components", "[vector][add]") {
 
     Vector result = a + b;
 
-    REQUIRE(result.getX() == -3.0);
-    REQUIRE(result.getY() == 3.0);
-    REQUIRE(result.getZ() == -3.0);
+    REQUIRE(result.x() == -3.0);
+    REQUIRE(result.y() == 3.0);
+    REQUIRE(result.z() == -3.0);
 }
 
 TEST_CASE("Adding works with decimal components", "[vector][add]") {
@@ -45,9 +45,9 @@ TEST_CASE("Adding works with decimal components", "[vector][add]") {
     Vector result = a + b;
 
     // Decimal numbers are not stored exactly, so we compare with Approx.
-    REQUIRE(result.getX() == Catch::Approx(0.3));
-    REQUIRE(result.getY() == Catch::Approx(0.5));
-    REQUIRE(result.getZ() == Catch::Approx(0.7));
+    REQUIRE(result.x() == Catch::Approx(0.3));
+    REQUIRE(result.y() == Catch::Approx(0.5));
+    REQUIRE(result.z() == Catch::Approx(0.7));
 }
 
 TEST_CASE("Adding does not change the original vectors", "[vector][add]") {
@@ -56,12 +56,12 @@ TEST_CASE("Adding does not change the original vectors", "[vector][add]") {
 
     a + b;
 
-    REQUIRE(a.getX() == 1.0);
-    REQUIRE(a.getY() == 2.0);
-    REQUIRE(a.getZ() == 3.0);
-    REQUIRE(b.getX() == 4.0);
-    REQUIRE(b.getY() == 5.0);
-    REQUIRE(b.getZ() == 6.0);
+    REQUIRE(a.x() == 1.0);
+    REQUIRE(a.y() == 2.0);
+    REQUIRE(a.z() == 3.0);
+    REQUIRE(b.x() == 4.0);
+    REQUIRE(b.y() == 5.0);
+    REQUIRE(b.z() == 6.0);
 }
 
 // ---------- subtract ----------
@@ -72,9 +72,9 @@ TEST_CASE("Subtracting two vectors subtracts each component", "[vector][subtract
 
     Vector result = a - b;
 
-    REQUIRE(result.getX() == 4.0);
-    REQUIRE(result.getY() == 5.0);
-    REQUIRE(result.getZ() == 6.0);
+    REQUIRE(result.x() == 4.0);
+    REQUIRE(result.y() == 5.0);
+    REQUIRE(result.z() == 6.0);
 }
 
 TEST_CASE("Subtracting (-5, 2, 1) from (-1, 4, 0) gives (4, 2, -1)", "[vector][subtract]") {
@@ -83,9 +83,9 @@ TEST_CASE("Subtracting (-5, 2, 1) from (-1, 4, 0) gives (4, 2, -1)", "[vector][s
 
     Vector result = a - b;
 
-    REQUIRE(result.getX() == 4.0);
-    REQUIRE(result.getY() == 2.0);
-    REQUIRE(result.getZ() == -1.0);
+    REQUIRE(result.x() == 4.0);
+    REQUIRE(result.y() == 2.0);
+    REQUIRE(result.z() == -1.0);
 }
 
 TEST_CASE("Subtracting a vector from itself gives the zero vector", "[vector][subtract]") {
@@ -93,9 +93,9 @@ TEST_CASE("Subtracting a vector from itself gives the zero vector", "[vector][su
 
     Vector result = a - a;
 
-    REQUIRE(result.getX() == 0.0);
-    REQUIRE(result.getY() == 0.0);
-    REQUIRE(result.getZ() == 0.0);
+    REQUIRE(result.x() == 0.0);
+    REQUIRE(result.y() == 0.0);
+    REQUIRE(result.z() == 0.0);
 }
 
 TEST_CASE("Subtracting can give negative components", "[vector][subtract]") {
@@ -104,9 +104,9 @@ TEST_CASE("Subtracting can give negative components", "[vector][subtract]") {
 
     Vector result = a - b;
 
-    REQUIRE(result.getX() == -3.0);
-    REQUIRE(result.getY() == -3.0);
-    REQUIRE(result.getZ() == -3.0);
+    REQUIRE(result.x() == -3.0);
+    REQUIRE(result.y() == -3.0);
+    REQUIRE(result.z() == -3.0);
 }
 
 TEST_CASE("Subtracting works with decimal components", "[vector][subtract]") {
@@ -115,9 +115,9 @@ TEST_CASE("Subtracting works with decimal components", "[vector][subtract]") {
 
     Vector result = a - b;
 
-    REQUIRE(result.getX() == Catch::Approx(0.3));
-    REQUIRE(result.getY() == Catch::Approx(0.4));
-    REQUIRE(result.getZ() == Catch::Approx(0.5));
+    REQUIRE(result.x() == Catch::Approx(0.3));
+    REQUIRE(result.y() == Catch::Approx(0.4));
+    REQUIRE(result.z() == Catch::Approx(0.5));
 }
 
 TEST_CASE("Subtracting is not the same as adding", "[vector][subtract]") {
@@ -126,7 +126,7 @@ TEST_CASE("Subtracting is not the same as adding", "[vector][subtract]") {
 
     Vector result = a - b;
 
-    REQUIRE(result.getX() != (a + b).getX());
+    REQUIRE(result.x() != (a + b).x());
 }
 
 // ---------- multiply by a number ----------
@@ -136,9 +136,9 @@ TEST_CASE("Multiplying a vector by a number multiplies each component", "[vector
 
     Vector result = v * 2;
 
-    REQUIRE(result.getX() == 2.0);
-    REQUIRE(result.getY() == 4.0);
-    REQUIRE(result.getZ() == 6.0);
+    REQUIRE(result.x() == 2.0);
+    REQUIRE(result.y() == 4.0);
+    REQUIRE(result.z() == 6.0);
 }
 
 TEST_CASE("Multiplying a vector by 1 gives the same vector", "[vector][multiply]") {
@@ -146,9 +146,9 @@ TEST_CASE("Multiplying a vector by 1 gives the same vector", "[vector][multiply]
 
     Vector result = v * 1;
 
-    REQUIRE(result.getX() == 1.0);
-    REQUIRE(result.getY() == -2.0);
-    REQUIRE(result.getZ() == 3.0);
+    REQUIRE(result.x() == 1.0);
+    REQUIRE(result.y() == -2.0);
+    REQUIRE(result.z() == 3.0);
 }
 
 TEST_CASE("Multiplying a vector by 0 gives the zero vector", "[vector][multiply]") {
@@ -156,9 +156,9 @@ TEST_CASE("Multiplying a vector by 0 gives the zero vector", "[vector][multiply]
 
     Vector result = v * 0;
 
-    REQUIRE(result.getX() == 0.0);
-    REQUIRE(result.getY() == 0.0);
-    REQUIRE(result.getZ() == 0.0);
+    REQUIRE(result.x() == 0.0);
+    REQUIRE(result.y() == 0.0);
+    REQUIRE(result.z() == 0.0);
 }
 
 TEST_CASE("Multiplying a vector by a negative number flips its direction", "[vector][multiply]") {
@@ -166,9 +166,9 @@ TEST_CASE("Multiplying a vector by a negative number flips its direction", "[vec
 
     Vector result = v * -1;
 
-    REQUIRE(result.getX() == -1.0);
-    REQUIRE(result.getY() == 2.0);
-    REQUIRE(result.getZ() == -3.0);
+    REQUIRE(result.x() == -1.0);
+    REQUIRE(result.y() == 2.0);
+    REQUIRE(result.z() == -3.0);
 }
 
 TEST_CASE("Multiplying a vector by a decimal number", "[vector][multiply]") {
@@ -176,9 +176,9 @@ TEST_CASE("Multiplying a vector by a decimal number", "[vector][multiply]") {
 
     Vector result = v * 0.5;
 
-    REQUIRE(result.getX() == Catch::Approx(0.5));
-    REQUIRE(result.getY() == Catch::Approx(1.0));
-    REQUIRE(result.getZ() == Catch::Approx(1.5));
+    REQUIRE(result.x() == Catch::Approx(0.5));
+    REQUIRE(result.y() == Catch::Approx(1.0));
+    REQUIRE(result.z() == Catch::Approx(1.5));
 }
 
 TEST_CASE("Multiplying does not change the original vector", "[vector][multiply]") {
@@ -186,7 +186,7 @@ TEST_CASE("Multiplying does not change the original vector", "[vector][multiply]
 
     v * 2;
 
-    REQUIRE(v.getX() == 1.0);
-    REQUIRE(v.getY() == 2.0);
-    REQUIRE(v.getZ() == 3.0);
+    REQUIRE(v.x() == 1.0);
+    REQUIRE(v.y() == 2.0);
+    REQUIRE(v.z() == 3.0);
 }
