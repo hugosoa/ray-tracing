@@ -31,3 +31,7 @@ Vector Vector::operator+(const Vector& other) const {
 Vector Vector::operator-(const Vector& other) const {
     return Vector(_x - other._x, _y - other._y, _z - other._z);
 }
+
+Vector Vector::operator*(double factor) const {
+    return Vector(_x * factor, _y * factor, _z * factor);
+}

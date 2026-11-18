@@ -26,4 +26,8 @@ public:
     // Returns a new vector that is this vector minus `other`.
     // Lets you write: Vector v3 = v1 - v2;
     Vector operator-(const Vector& other) const;
+
+    // Returns a new vector with each component multiplied by `factor`.
+    // Lets you write: Vector v2 = v * 2;
+    Vector operator*(double factor) const;
 };

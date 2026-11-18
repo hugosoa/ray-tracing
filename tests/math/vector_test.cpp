@@ -128,3 +128,65 @@ TEST_CASE("Subtracting is not the same as adding", "[vector][subtract]") {
 
     REQUIRE(result.getX() != (a + b).getX());
 }
+
+// ---------- multiply by a number ----------
+
+TEST_CASE("Multiplying a vector by a number multiplies each component", "[vector][multiply]") {
+    Vector v(1.0, 2.0, 3.0);
+
+    Vector result = v * 2;
+
+    REQUIRE(result.getX() == 2.0);
+    REQUIRE(result.getY() == 4.0);
+    REQUIRE(result.getZ() == 6.0);
+}
+
+TEST_CASE("Multiplying a vector by 1 gives the same vector", "[vector][multiply]") {
+    Vector v(1.0, -2.0, 3.0);
+
+    Vector result = v * 1;
+
+    REQUIRE(result.getX() == 1.0);
+    REQUIRE(result.getY() == -2.0);
+    REQUIRE(result.getZ() == 3.0);
+}
+
+TEST_CASE("Multiplying a vector by 0 gives the zero vector", "[vector][multiply]") {
+    Vector v(1.0, 2.0, 3.0);
+
+    Vector result = v * 0;
+
+    REQUIRE(result.getX() == 0.0);
+    REQUIRE(result.getY() == 0.0);
+    REQUIRE(result.getZ() == 0.0);
+}
+
+TEST_CASE("Multiplying a vector by a negative number flips its direction", "[vector][multiply]") {
+    Vector v(1.0, -2.0, 3.0);
+
+    Vector result = v * -1;
+
+    REQUIRE(result.getX() == -1.0);
+    REQUIRE(result.getY() == 2.0);
+    REQUIRE(result.getZ() == -3.0);
+}
+
+TEST_CASE("Multiplying a vector by a decimal number", "[vector][multiply]") {
+    Vector v(1.0, 2.0, 3.0);
+
+    Vector result = v * 0.5;
+
+    REQUIRE(result.getX() == Catch::Approx(0.5));
+    REQUIRE(result.getY() == Catch::Approx(1.0));
+    REQUIRE(result.getZ() == Catch::Approx(1.5));
+}
+
+TEST_CASE("Multiplying does not change the original vector", "[vector][multiply]") {
+    Vector v(1.0, 2.0, 3.0);
+
+    v * 2;
+
+    REQUIRE(v.getX() == 1.0);
+    REQUIRE(v.getY() == 2.0);
+    REQUIRE(v.getZ() == 3.0);
+}
