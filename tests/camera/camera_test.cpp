@@ -10,6 +10,7 @@
 #include "material/flat_shader.hpp"
 #include "material/lambert_shader.hpp"
 #include "light/light.hpp"
+#include "scene/scene.hpp"
 #include "image/image.hpp"
 
 // ---------- constructor and getters ----------
@@ -109,15 +110,16 @@ TEST_CASE("With a 2 unit screen and a 512 x 256 image, the corner rays go throug
 }
 
 // ---------- trace ----------
-// Camera at (0, 0, -1), sphere of radius 1 centred at (0, 0, 5), white light next to the camera.
+// Camera at (0, 0, -1), a scene with a sphere of radius 1 centred at (0, 0, 5), white light next to the camera.
 
 TEST_CASE("Tracing a ray that hits the sphere gives the sphere's colour", "[camera][trace]") {
     Camera camera(Vector(0.0, 0.0, -1.0));
-    Sphere sphere(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<FlatShader>(Colour(0.0, 1.0, 0.0)));
     Light light(Vector(0.0, 0.0, -1.0), Colour(1.0, 1.0, 1.0));
+    Scene scene(light);
+    scene.add(std::make_unique<Sphere>(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<FlatShader>(Colour(0.0, 1.0, 0.0))));
     Ray ray(Vector(0.0, 0.0, -1.0), Vector(0.0, 0.0, 1.0));
 
-    Colour colour = camera.trace(ray, sphere, light);
+    Colour colour = camera.trace(ray, scene);
 
     REQUIRE(colour.r() == 0.0);
     REQUIRE(colour.g() == 1.0);
@@ -126,13 +128,14 @@ TEST_CASE("Tracing a ray that hits the sphere gives the sphere's colour", "[came
 
 TEST_CASE("Tracing a ray with a Lambert sphere lit from the side darkens the colour", "[camera][trace]") {
     Camera camera(Vector(0.0, 0.0, -1.0));
-    Sphere sphere(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<LambertShader>(Colour(1.0, 1.0, 1.0)));
+    Light light(Vector(10.0, 0.0, 4.0), Colour(1.0, 1.0, 1.0));
+    Scene scene(light);
+    scene.add(std::make_unique<Sphere>(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<LambertShader>(Colour(1.0, 1.0, 1.0))));
     // The ray hits the sphere at (0, 0, 4), where the normal is (0, 0, -1).
     // The light is perpendicular to that normal, so the point is not lit.
-    Light light(Vector(10.0, 0.0, 4.0), Colour(1.0, 1.0, 1.0));
     Ray ray(Vector(0.0, 0.0, -1.0), Vector(0.0, 0.0, 1.0));
 
-    Colour colour = camera.trace(ray, sphere, light);
+    Colour colour = camera.trace(ray, scene);
 
     REQUIRE(colour.r() == 0.0);
     REQUIRE(colour.g() == 0.0);
@@ -141,11 +144,12 @@ TEST_CASE("Tracing a ray with a Lambert sphere lit from the side darkens the col
 
 TEST_CASE("Tracing a ray that misses the sphere gives black", "[camera][trace]") {
     Camera camera(Vector(0.0, 0.0, -1.0));
-    Sphere sphere(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0)));
     Light light(Vector(0.0, 0.0, -1.0), Colour(1.0, 1.0, 1.0));
+    Scene scene(light);
+    scene.add(std::make_unique<Sphere>(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0))));
     Ray ray(Vector(0.0, 0.0, -1.0), Vector(0.0, 1.0, 0.0));
 
-    Colour colour = camera.trace(ray, sphere, light);
+    Colour colour = camera.trace(ray, scene);
 
     REQUIRE(colour.r() == 0.0);
     REQUIRE(colour.g() == 0.0);
@@ -156,11 +160,11 @@ TEST_CASE("Tracing a ray that misses the sphere gives black", "[camera][trace]")
 
 TEST_CASE("Rendering gives an image of the requested size", "[camera][render]") {
     Camera camera(Vector(0.0, 0.0, -1.0), 2.0);
-    Sphere sphere(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0)));
-
     Light light(Vector(0.0, 0.0, -1.0), Colour(1.0, 1.0, 1.0));
+    Scene scene(light);
+    scene.add(std::make_unique<Sphere>(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0))));
 
-    Image image = camera.render(sphere, light, 4, 3);
+    Image image = camera.render(scene, 4, 3);
 
     REQUIRE(image.width() == 4);
     REQUIRE(image.height() == 3);
@@ -168,11 +172,11 @@ TEST_CASE("Rendering gives an image of the requested size", "[camera][render]") 
 
 TEST_CASE("Rendering a sphere in front of the camera colours the centre red and the corners black", "[camera][render]") {
     Camera camera(Vector(0.0, 0.0, -1.0), 2.0);
-    Sphere sphere(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0)));
-
     Light light(Vector(0.0, 0.0, -1.0), Colour(1.0, 1.0, 1.0));
+    Scene scene(light);
+    scene.add(std::make_unique<Sphere>(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0))));
 
-    Image image = camera.render(sphere, light, 5, 5);
+    Image image = camera.render(scene, 5, 5);
 
     REQUIRE(image.pixel(2, 2).r() == 1.0);
     REQUIRE(image.pixel(0, 0).r() == 0.0);

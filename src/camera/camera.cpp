@@ -24,21 +24,21 @@ Ray Camera::rayThroughPixel(int column, int row, int imageWidth, int imageHeight
     return Ray(_position, direction);
 }
 
-Colour Camera::trace(Ray& ray, Sphere& sphere, const Light& light) const {
-    std::optional<HitInfo> hit = sphere.hit(ray);
+Colour Camera::trace(Ray& ray, const Scene& scene) const {
+    std::optional<HitInfo> hit = scene.nearestHit(ray);
     if (!hit) {
         return Colour(0, 0, 0);
     }
-    return hit->material->shade(*hit, light);
+    return hit->material->shade(*hit, scene.light());
 }
 
-Image Camera::render(Sphere& sphere, const Light& light, int imageWidth, int imageHeight) {
+Image Camera::render(const Scene& scene, int imageWidth, int imageHeight) {
     Image image(imageWidth, imageHeight);
 
     for (int row = 0; row < imageHeight; ++row) {
         for (int column = 0; column < imageWidth; ++column) {
             Ray ray = rayThroughPixel(column, row, imageWidth, imageHeight);
-            image.setPixel(column, row, trace(ray, sphere, light));
+            image.setPixel(column, row, trace(ray, scene));
         }
     }
 
