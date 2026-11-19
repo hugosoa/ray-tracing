@@ -28,6 +28,8 @@ add_executable(raytracer
   src/colour/colour.cpp
   src/image/image.cpp
   src/io/png_saver.cpp
+  src/material/flat_shader.cpp
+  src/light/light.cpp
 )
 # Lets the code write #include "math/vector.hpp"
 target_include_directories(raytracer PRIVATE src)
@@ -52,6 +54,8 @@ add_executable(tests
   tests/camera/camera_test.cpp
   tests/image/image_test.cpp
   tests/io/png_saver_test.cpp
+  tests/material/flat_shader_test.cpp
+  tests/light/light_test.cpp
   src/math/vector.cpp
   src/ray/ray.cpp
   src/geometry/sphere.cpp
@@ -59,6 +63,8 @@ add_executable(tests
   src/colour/colour.cpp
   src/image/image.cpp
   src/io/png_saver.cpp
+  src/material/flat_shader.cpp
+  src/light/light.cpp
 )
 # Lets the tests write #include "math/vector.hpp"
 target_include_directories(tests PRIVATE src)

@@ -1,10 +1,13 @@
 #include <catch2/catch_test_macros.hpp>
 
+#include <memory>
+
 #include "camera/camera.hpp"
 #include "math/vector.hpp"
 #include "ray/ray.hpp"
 #include "geometry/sphere.hpp"
 #include "colour/colour.hpp"
+#include "material/flat_shader.hpp"
 #include "image/image.hpp"
 
 // ---------- constructor and getters ----------
@@ -108,7 +111,7 @@ TEST_CASE("With a 2 unit screen and a 512 x 256 image, the corner rays go throug
 
 TEST_CASE("Tracing a ray that hits the sphere gives the sphere's colour", "[camera][trace]") {
     Camera camera(Vector(0.0, 0.0, -1.0));
-    Sphere sphere(Vector(0.0, 0.0, 5.0), 1.0, Colour(0.0, 1.0, 0.0));
+    Sphere sphere(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<FlatShader>(Colour(0.0, 1.0, 0.0)));
     Ray ray(Vector(0.0, 0.0, -1.0), Vector(0.0, 0.0, 1.0));
 
     Colour colour = camera.trace(ray, sphere);
@@ -120,7 +123,7 @@ TEST_CASE("Tracing a ray that hits the sphere gives the sphere's colour", "[came
 
 TEST_CASE("Tracing a ray that misses the sphere gives black", "[camera][trace]") {
     Camera camera(Vector(0.0, 0.0, -1.0));
-    Sphere sphere(Vector(0.0, 0.0, 5.0), 1.0, Colour(1.0, 0.0, 0.0));
+    Sphere sphere(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0)));
     Ray ray(Vector(0.0, 0.0, -1.0), Vector(0.0, 1.0, 0.0));
 
     Colour colour = camera.trace(ray, sphere);
@@ -134,7 +137,7 @@ TEST_CASE("Tracing a ray that misses the sphere gives black", "[camera][trace]")
 
 TEST_CASE("Rendering gives an image of the requested size", "[camera][render]") {
     Camera camera(Vector(0.0, 0.0, -1.0), 2.0);
-    Sphere sphere(Vector(0.0, 0.0, 5.0), 1.0, Colour(1.0, 0.0, 0.0));
+    Sphere sphere(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0)));
 
     Image image = camera.render(sphere, 4, 3);
 
@@ -144,7 +147,7 @@ TEST_CASE("Rendering gives an image of the requested size", "[camera][render]") 
 
 TEST_CASE("Rendering a sphere in front of the camera colours the centre red and the corners black", "[camera][render]") {
     Camera camera(Vector(0.0, 0.0, -1.0), 2.0);
-    Sphere sphere(Vector(0.0, 0.0, 5.0), 1.0, Colour(1.0, 0.0, 0.0));
+    Sphere sphere(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0)));
 
     Image image = camera.render(sphere, 5, 5);
 

@@ -24,7 +24,7 @@ Ray Camera::rayThroughPixel(int column, int row, int imageWidth, int imageHeight
 
 Colour Camera::trace(Ray& ray, Sphere& sphere) const {
     if (sphere.hit(ray)) {
-        return sphere.colour();
+        return sphere.material().shade();
     }
     return Colour(0, 0, 0);
 }

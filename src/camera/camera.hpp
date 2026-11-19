@@ -23,7 +23,7 @@ public:
 
     Ray rayThroughPixel(int column, int row, int imageWidth, int imageHeight);
 
-    // Colour seen along `ray`: the colour of `sphere` if the ray hits it, black otherwise.
+    // Colour seen along `ray`: the colour given by the material of `sphere` if the ray hits it, black otherwise.
     Colour trace(Ray& ray, Sphere& sphere) const;
 
     // Renders `sphere` into an image of imageWidth x imageHeight pixels.

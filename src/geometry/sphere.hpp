@@ -1,7 +1,10 @@
 #pragma once
+
+#include <memory>
+
 #include "math/vector.hpp"
 #include "ray/ray.hpp"
-#include "colour/colour.hpp"
+#include "material/material.hpp"
 
 // A sphere in 3D space, defined by its center and its radius.
 class Sphere {
@@ -9,13 +12,15 @@ private:
     Vector _center;
     double _radius;
 
-    Colour _colour;
+    std::shared_ptr<const Material> _material;
 
 public:
-    Sphere(const Vector& center, double radius, const Colour& colour);
+    // Creates a sphere centered at `center` with the given `radius`, shaded by `material`.
+    // The material is shared, so several spheres can use the same one.
+    Sphere(const Vector& center, double radius, std::shared_ptr<const Material> material);
 
     const Vector& center() const;
-    const Colour& colour() const;
+    const Material& material() const;
     double radius() const;
 
     // Est-ce que ce rayon me touche? 

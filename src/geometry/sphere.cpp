@@ -1,11 +1,12 @@
 #include "geometry/sphere.hpp"
 #include <cmath>
+#include <utility>
 
-Sphere::Sphere(const Vector& center, double radius, const Colour& colour)
-    : _center(center), _radius(radius), _colour(colour) {}
+Sphere::Sphere(const Vector& center, double radius, std::shared_ptr<const Material> material)
+    : _center(center), _radius(radius), _material(std::move(material)) {}
 
 const Vector& Sphere::center() const { return _center; }
-const Colour& Sphere::colour() const { return _colour; }
+const Material& Sphere::material() const { return *_material; }
 double Sphere::radius() const { return _radius; }
 
 bool Sphere::hit(Ray& ray) {
