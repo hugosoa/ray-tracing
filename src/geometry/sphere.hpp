@@ -7,9 +7,10 @@
 #include "ray/ray.hpp"
 #include "material/material.hpp"
 #include "geometry/hit_info.hpp"
+#include "geometry/shape.hpp"
 
 // A sphere in 3D space, defined by its center and its radius.
-class Sphere {
+class Sphere : public Shape {
 private:
     Vector _center;
     double _radius;
@@ -28,6 +29,6 @@ public:
     // Est-ce que ce rayon me touche?
     // Returns where the ray hits the sphere first (closest non negative t),
     // or std::nullopt if it does not hit it.
-    std::optional<HitInfo> hit(const Ray& ray) const;
+    std::optional<HitInfo> hit(const Ray& ray) const override;
 };
 

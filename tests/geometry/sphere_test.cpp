@@ -5,6 +5,7 @@
 #include <optional>
 
 #include "geometry/sphere.hpp"
+#include "geometry/shape.hpp"
 #include "geometry/hit_info.hpp"
 #include "math/vector.hpp"
 #include "ray/ray.hpp"
@@ -153,4 +154,17 @@ TEST_CASE("The hit info carries the material of the sphere", "[sphere][hit][hiti
 
     REQUIRE(hit.has_value());
     REQUIRE(hit->material == material.get());
+}
+
+// ---------- as a Shape ----------
+
+TEST_CASE("A sphere can be hit through a Shape reference", "[sphere][shape]") {
+    Sphere sphere(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0)));
+    const Shape& shape = sphere;
+    Ray ray(Vector(0.0, 0.0, 0.0), Vector(0.0, 0.0, 1.0));
+
+    std::optional<HitInfo> hit = shape.hit(ray);
+
+    REQUIRE(hit.has_value());
+    REQUIRE(hit->point.z() == 4.0);
 }
