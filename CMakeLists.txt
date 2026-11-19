@@ -29,6 +29,7 @@ add_executable(raytracer
   src/image/image.cpp
   src/io/png_saver.cpp
   src/material/flat_shader.cpp
+  src/material/lambert_shader.cpp
   src/light/light.cpp
 )
 # Lets the code write #include "math/vector.hpp"
@@ -55,6 +56,7 @@ add_executable(tests
   tests/image/image_test.cpp
   tests/io/png_saver_test.cpp
   tests/material/flat_shader_test.cpp
+  tests/material/lambert_shader_test.cpp
   tests/light/light_test.cpp
   src/math/vector.cpp
   src/ray/ray.cpp
@@ -64,6 +66,7 @@ add_executable(tests
   src/image/image.cpp
   src/io/png_saver.cpp
   src/material/flat_shader.cpp
+  src/material/lambert_shader.cpp
   src/light/light.cpp
 )
 # Lets the tests write #include "math/vector.hpp"

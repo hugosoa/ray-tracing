@@ -12,6 +12,6 @@ public:
     // Creates a flat shader that always returns `colour`.
     explicit FlatShader(const Colour& colour);
 
-    // Returns the colour given to the constructor.
-    Colour shade() const override;
+    // Returns the colour given to the constructor. `hit` and `light` are ignored.
+    Colour shade(const HitInfo& hit, const Light& light) const override;
 };

@@ -5,6 +5,7 @@
 #include "geometry/sphere.hpp"
 #include "colour/colour.hpp"
 #include "image/image.hpp"
+#include "light/light.hpp"
 
 // A camera placed at `position`.
 // For now it always faces the positive Z axis (direction (0, 0, 1)).
@@ -23,10 +24,11 @@ public:
 
     Ray rayThroughPixel(int column, int row, int imageWidth, int imageHeight);
 
-    // Colour seen along `ray`: the colour given by the material of `sphere` if the ray hits it, black otherwise.
-    Colour trace(Ray& ray, Sphere& sphere) const;
+    // Colour seen along `ray`: the colour given by the material of `sphere`, lit by `light`,
+    // if the ray hits it, black otherwise.
+    Colour trace(Ray& ray, Sphere& sphere, const Light& light) const;
 
-    // Renders `sphere` into an image of imageWidth x imageHeight pixels.
-    Image render(Sphere& sphere, int imageWidth, int imageHeight);
+    // Renders `sphere`, lit by `light`, into an image of imageWidth x imageHeight pixels.
+    Image render(Sphere& sphere, const Light& light, int imageWidth, int imageHeight);
 };
 
