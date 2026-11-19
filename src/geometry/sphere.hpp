@@ -27,7 +27,7 @@ public:
     double radius() const;
 
     // Est-ce que ce rayon me touche?
-    // Returns where the ray hits the sphere first (closest non negative t),
+    // Returns where the ray hits the sphere first (closest t > 0),
     // or std::nullopt if it does not hit it.
     std::optional<HitInfo> hit(const Ray& ray) const override;
 };

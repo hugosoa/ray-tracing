@@ -27,13 +27,13 @@ std::optional<HitInfo> Sphere::hit(const Ray& ray) const {
     double t1 = (-b + sqrt(delta)) / (2 * a);
     double t2 = (-b - sqrt(delta)) / (2 * a);
 
-    // Ignore negative t (behind the ray), then keep the lowest of what is left.
+    // Ignore t <= 0 (behind the ray, or at its origin), then keep the lowest of what is left.
     double t;
-    if (t1 >= 0 && t2 >= 0) {
+    if (t1 > 0 && t2 > 0) {
         t = std::min(t1, t2);
-    } else if (t1 >= 0) {
+    } else if (t1 > 0) {
         t = t1;
-    } else if (t2 >= 0) {
+    } else if (t2 > 0) {
         t = t2;
     } else {
         return std::nullopt;

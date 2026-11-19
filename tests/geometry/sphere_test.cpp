@@ -168,3 +168,27 @@ TEST_CASE("A sphere can be hit through a Shape reference", "[sphere][shape]") {
     REQUIRE(hit.has_value());
     REQUIRE(hit->point.z() == 4.0);
 }
+
+// ---------- t > 0: a ray never hits at its own origin ----------
+// Sphere of radius 1 centred at the origin, ray starting on its surface.
+
+TEST_CASE("A ray starting on the sphere and pointing outwards misses it", "[sphere][hit]") {
+    Sphere sphere(Vector(0.0, 0.0, 0.0), 1.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0)));
+    // Solutions: t = 0 (the origin) and t = -2 (behind), so nothing in front.
+    Ray ray(Vector(0.0, 0.0, 1.0), Vector(0.0, 0.0, 1.0));
+
+    std::optional<HitInfo> hit = sphere.hit(ray);
+
+    REQUIRE_FALSE(hit.has_value());
+}
+
+TEST_CASE("A ray starting on the sphere and pointing inwards hits the other side", "[sphere][hit]") {
+    Sphere sphere(Vector(0.0, 0.0, 0.0), 1.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0)));
+    // Solutions: t = 0 (the origin) and t = 2, so the hit is at (0, 0, 1).
+    Ray ray(Vector(0.0, 0.0, -1.0), Vector(0.0, 0.0, 1.0));
+
+    std::optional<HitInfo> hit = sphere.hit(ray);
+
+    REQUIRE(hit.has_value());
+    REQUIRE(hit->point.z() == 1.0);
+}
