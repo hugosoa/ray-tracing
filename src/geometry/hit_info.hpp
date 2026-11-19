@@ -5,6 +5,9 @@
 
 // What we know about the point where a ray hits an object.
 struct HitInfo {
+    // Distance along the ray: the hit is at ray.at(t). Used to find the nearest hit.
+    double t;
+
     // Where the ray hits the surface.
     Vector point;
 

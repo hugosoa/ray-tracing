@@ -145,6 +145,17 @@ TEST_CASE("The normal has length 1 even on a big sphere", "[sphere][hit][hitinfo
     REQUIRE(hit->normal.length() == Catch::Approx(1.0));
 }
 
+TEST_CASE("The hit info carries the t of the hit", "[sphere][hit][hitinfo]") {
+    Sphere sphere(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0)));
+    // The ray meets the sphere at z = 4, so t = 4.
+    Ray ray(Vector(0.0, 0.0, 0.0), Vector(0.0, 0.0, 1.0));
+
+    std::optional<HitInfo> hit = sphere.hit(ray);
+
+    REQUIRE(hit.has_value());
+    REQUIRE(hit->t == 4.0);
+}
+
 TEST_CASE("The hit info carries the material of the sphere", "[sphere][hit][hitinfo]") {
     auto material = std::make_shared<FlatShader>(Colour(0.25, 0.5, 0.75));
     Sphere sphere(Vector(0.0, 0.0, 0.0), 1.0, material);
