@@ -15,4 +15,7 @@ public:
     // Read the origin and direction (they are private, so other code uses these).
     Vector getOrigin() const;
     Vector getDirection() const;
+
+    // Point on the ray at parameter t: origin + t * direction.
+    Vector at(double t) const;
 };

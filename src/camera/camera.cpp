@@ -1,5 +1,7 @@
 #include "camera/camera.hpp"
 
+#include <optional>
+
 Camera::Camera(const Vector& position, double screenWidth)
     : _position(position), _screenWidth(screenWidth) {}
 
@@ -23,10 +25,11 @@ Ray Camera::rayThroughPixel(int column, int row, int imageWidth, int imageHeight
 }
 
 Colour Camera::trace(Ray& ray, Sphere& sphere) const {
-    if (sphere.hit(ray)) {
-        return sphere.material().shade();
+    std::optional<HitInfo> hit = sphere.hit(ray);
+    if (!hit) {
+        return Colour(0, 0, 0);
     }
-    return Colour(0, 0, 0);
+    return hit->material->shade();
 }
 
 Image Camera::render(Sphere& sphere, int imageWidth, int imageHeight) {

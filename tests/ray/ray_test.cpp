@@ -65,3 +65,33 @@ TEST_CASE("Copying a ray gives the same origin and direction", "[ray][copy]") {
     REQUIRE(copy.getDirection().y() == 5.0);
     REQUIRE(copy.getDirection().z() == 6.0);
 }
+
+// ---------- at ----------
+
+TEST_CASE("The point at t = 0 is the origin of the ray", "[ray][at]") {
+    Ray ray(Vector(1.0, 2.0, 3.0), Vector(4.0, 5.0, 6.0));
+
+    Vector point = ray.at(0.0);
+
+    REQUIRE(point.x() == 1.0);
+    REQUIRE(point.y() == 2.0);
+    REQUIRE(point.z() == 3.0);
+}
+
+TEST_CASE("The point at t is origin + t * direction", "[ray][at]") {
+    Ray ray(Vector(1.0, 2.0, 3.0), Vector(4.0, 5.0, 6.0));
+
+    Vector point = ray.at(2.0);
+
+    REQUIRE(point.x() == 9.0);
+    REQUIRE(point.y() == 12.0);
+    REQUIRE(point.z() == 15.0);
+}
+
+TEST_CASE("The point at a negative t is behind the origin", "[ray][at]") {
+    Ray ray(Vector(0.0, 0.0, 0.0), Vector(0.0, 0.0, 1.0));
+
+    Vector point = ray.at(-3.0);
+
+    REQUIRE(point.z() == -3.0);
+}
