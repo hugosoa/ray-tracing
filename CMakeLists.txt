@@ -24,6 +24,7 @@ add_executable(raytracer
   src/math/vector.cpp
   src/ray/ray.cpp
   src/geometry/sphere.cpp
+  src/geometry/plane.cpp
   src/camera/camera.cpp
   src/colour/colour.cpp
   src/image/image.cpp
@@ -51,6 +52,7 @@ add_executable(tests
   tests/math/vector_test.cpp
   tests/ray/ray_test.cpp
   tests/geometry/sphere_test.cpp
+  tests/geometry/plane_test.cpp
   tests/colour/colour_test.cpp
   tests/camera/camera_test.cpp
   tests/image/image_test.cpp
@@ -61,6 +63,7 @@ add_executable(tests
   src/math/vector.cpp
   src/ray/ray.cpp
   src/geometry/sphere.cpp
+  src/geometry/plane.cpp
   src/camera/camera.cpp
   src/colour/colour.cpp
   src/image/image.cpp
