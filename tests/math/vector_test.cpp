@@ -190,3 +190,87 @@ TEST_CASE("Multiplying does not change the original vector", "[vector][multiply]
     REQUIRE(v.y() == 2.0);
     REQUIRE(v.z() == 3.0);
 }
+
+// ---------- constructor and getters ----------
+
+TEST_CASE("A vector keeps the components it was created with", "[vector][constructor]") {
+    Vector v(1.5, -2.0, 3.25);
+
+    REQUIRE(v.x() == 1.5);
+    REQUIRE(v.y() == -2.0);
+    REQUIRE(v.z() == 3.25);
+}
+
+// ---------- number * vector ----------
+
+TEST_CASE("Multiplying a number by a vector gives the same result as vector * number", "[vector][multiply]") {
+    Vector v(1.0, -2.0, 3.0);
+
+    Vector result = 2 * v;
+
+    REQUIRE(result.x() == 2.0);
+    REQUIRE(result.y() == -4.0);
+    REQUIRE(result.z() == 6.0);
+}
+
+// ---------- dot ----------
+
+TEST_CASE("The dot product multiplies components and adds them", "[vector][dot]") {
+    Vector a(1.0, 2.0, 3.0);
+    Vector b(4.0, -5.0, 6.0);
+
+    // 1*4 + 2*(-5) + 3*6 = 12
+    REQUIRE(a.dot(b) == 12.0);
+}
+
+TEST_CASE("The dot product of perpendicular vectors is 0", "[vector][dot]") {
+    Vector a(1.0, 0.0, 0.0);
+    Vector b(0.0, 1.0, 0.0);
+
+    REQUIRE(a.dot(b) == 0.0);
+}
+
+TEST_CASE("The dot product does not depend on the order", "[vector][dot]") {
+    Vector a(1.0, 2.0, 3.0);
+    Vector b(4.0, -5.0, 6.0);
+
+    REQUIRE(a.dot(b) == b.dot(a));
+}
+
+// ---------- length ----------
+
+TEST_CASE("The length of (3, 4, 0) is 5", "[vector][length]") {
+    Vector v(3.0, 4.0, 0.0);
+
+    REQUIRE(v.length() == Catch::Approx(5.0));
+}
+
+TEST_CASE("The length of the zero vector is 0", "[vector][length]") {
+    Vector v(0.0, 0.0, 0.0);
+
+    REQUIRE(v.length() == 0.0);
+}
+
+TEST_CASE("The length is never negative", "[vector][length]") {
+    Vector v(-3.0, -4.0, 0.0);
+
+    REQUIRE(v.length() == Catch::Approx(5.0));
+}
+
+// ---------- normalised ----------
+
+TEST_CASE("A normalised vector has length 1", "[vector][normalised]") {
+    Vector v(1.0, 2.0, 3.0);
+
+    REQUIRE(v.normalised().length() == Catch::Approx(1.0));
+}
+
+TEST_CASE("A normalised vector keeps the same direction", "[vector][normalised]") {
+    Vector v(0.0, 0.0, 5.0);
+
+    Vector result = v.normalised();
+
+    REQUIRE(result.x() == Catch::Approx(0.0));
+    REQUIRE(result.y() == Catch::Approx(0.0));
+    REQUIRE(result.z() == Catch::Approx(1.0));
+}
