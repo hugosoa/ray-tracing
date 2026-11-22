@@ -34,7 +34,7 @@ int main() {
     Image image = camera.render(scene, imageWidth, imageHeight);
 
     PngSaver saver = PngSaver();
-    saver.save(image, "output.png");
+    saver.save(image, "image.png");
 
     return 0;
 }
