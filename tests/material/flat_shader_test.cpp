@@ -14,9 +14,9 @@ TEST_CASE("A flat shader shades with the colour it was created with", "[material
 
     Colour colour = shader.shade(hit, light);
 
-    REQUIRE(colour.r() == 0.25);
-    REQUIRE(colour.g() == 0.5);
-    REQUIRE(colour.b() == 0.75);
+    REQUIRE(colour.getR() == 0.25);
+    REQUIRE(colour.getG() == 0.5);
+    REQUIRE(colour.getB() == 0.75);
 }
 
 TEST_CASE("A flat shader ignores the light", "[material][flat]") {
@@ -27,9 +27,9 @@ TEST_CASE("A flat shader ignores the light", "[material][flat]") {
 
     Colour colour = shader.shade(hit, light);
 
-    REQUIRE(colour.r() == 0.25);
-    REQUIRE(colour.g() == 0.5);
-    REQUIRE(colour.b() == 0.75);
+    REQUIRE(colour.getR() == 0.25);
+    REQUIRE(colour.getG() == 0.5);
+    REQUIRE(colour.getB() == 0.75);
 }
 
 TEST_CASE("A flat shader can be used through a Material reference", "[material][flat]") {
@@ -40,7 +40,7 @@ TEST_CASE("A flat shader can be used through a Material reference", "[material][
 
     Colour colour = material.shade(hit, light);
 
-    REQUIRE(colour.r() == 0.0);
-    REQUIRE(colour.g() == 1.0);
-    REQUIRE(colour.b() == 0.0);
+    REQUIRE(colour.getR() == 0.0);
+    REQUIRE(colour.getG() == 1.0);
+    REQUIRE(colour.getB() == 0.0);
 }

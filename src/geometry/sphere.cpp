@@ -6,9 +6,9 @@
 Sphere::Sphere(const Vector& center, double radius, std::shared_ptr<const Material> material)
     : _center(center), _radius(radius), _material(std::move(material)) {}
 
-const Vector& Sphere::center() const { return _center; }
-const Material& Sphere::material() const { return *_material; }
-double Sphere::radius() const { return _radius; }
+const Vector& Sphere::getCenter() const { return _center; }
+const Material& Sphere::getMaterial() const { return *_material; }
+double Sphere::getRadius() const { return _radius; }
 
 std::optional<HitInfo> Sphere::hit(const Ray& ray) const {
     Vector D = ray.getDirection();

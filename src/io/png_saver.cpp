@@ -22,18 +22,18 @@ void PngSaver::save(const Image& image, const std::string& path) {
     // LodePNG expects the pixels row by row from the top-left corner, 3 bytes (R, G, B) each,
     // which is the same order as Image.
     std::vector<unsigned char> rgb;
-    rgb.reserve(static_cast<std::size_t>(image.width()) * image.height() * 3);
+    rgb.reserve(static_cast<std::size_t>(image.getWidth()) * image.getHeight() * 3);
 
-    for (unsigned int y = 0; y < image.height(); ++y) {
-        for (unsigned int x = 0; x < image.width(); ++x) {
-            const Colour& colour = image.pixel(x, y);
-            rgb.push_back(toByte(colour.r()));
-            rgb.push_back(toByte(colour.g()));
-            rgb.push_back(toByte(colour.b()));
+    for (unsigned int y = 0; y < image.getHeight(); ++y) {
+        for (unsigned int x = 0; x < image.getWidth(); ++x) {
+            const Colour& colour = image.getPixel(x, y);
+            rgb.push_back(toByte(colour.getR()));
+            rgb.push_back(toByte(colour.getG()));
+            rgb.push_back(toByte(colour.getB()));
         }
     }
 
-    unsigned int error = lodepng::encode(path, rgb, image.width(), image.height(), LCT_RGB, 8);
+    unsigned int error = lodepng::encode(path, rgb, image.getWidth(), image.getHeight(), LCT_RGB, 8);
     if (error != 0) {
         throw std::runtime_error("cannot save PNG to '" + path + "': " + lodepng_error_text(error));
     }

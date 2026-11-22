@@ -22,9 +22,9 @@ public:
     // The material is shared, so several spheres can use the same one.
     Sphere(const Vector& center, double radius, std::shared_ptr<const Material> material);
 
-    const Vector& center() const;
-    const Material& material() const;
-    double radius() const;
+    const Vector& getCenter() const;
+    const Material& getMaterial() const;
+    double getRadius() const;
 
     // Est-ce que ce rayon me touche?
     // Returns where the ray hits the sphere first (closest t > 0),

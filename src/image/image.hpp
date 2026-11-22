@@ -20,11 +20,11 @@ public:
     Image(unsigned int width, unsigned int height);
 
     // Dimensions, in pixels.
-    unsigned int width() const;
-    unsigned int height() const;
+    unsigned int getWidth() const;
+    unsigned int getHeight() const;
 
     // Colour of pixel (x, y). Throws std::out_of_range if (x, y) is outside the image.
-    const Colour& pixel(unsigned int x, unsigned int y) const;
+    const Colour& getPixel(unsigned int x, unsigned int y) const;
 
     // Sets pixel (x, y) to colour. Throws std::out_of_range if (x, y) is outside the image.
     void setPixel(unsigned int x, unsigned int y, const Colour& colour);

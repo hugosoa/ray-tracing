@@ -35,6 +35,7 @@ Our architecture decisions live in `docs/adr/`. Read them before changing the bu
 ## Code style
 
 - Private member variables start with an underscore followed by a lowercase letter (`_x`, `_count`). Never use an underscore followed by an uppercase letter (`_X`): those names are reserved by the C++ standard.
+- Getters start with `get` followed by the field name (`getX()`, `getOrigin()`, `getColour()`), so that reading a value is always easy to spot.
 
 ## Rules
 

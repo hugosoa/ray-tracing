@@ -2,6 +2,6 @@
 
 Colour::Colour(double r, double g, double b) : _r(r), _g(g), _b(b) {}
 
-double Colour::r() const { return _r; }
-double Colour::g() const { return _g; }
-double Colour::b() const { return _b; }
+double Colour::getR() const { return _r; }
+double Colour::getG() const { return _g; }
+double Colour::getB() const { return _b; }

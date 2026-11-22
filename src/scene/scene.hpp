@@ -20,7 +20,7 @@ public:
     // Creates an empty scene, lit by `light`.
     explicit Scene(const Light& light);
 
-    const Light& light() const;
+    const Light& getLight() const;
 
     // Adds `shape` to the scene, which then owns it.
     void add(std::unique_ptr<Shape> shape);

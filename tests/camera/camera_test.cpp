@@ -18,9 +18,9 @@
 TEST_CASE("A camera keeps the position it was created with", "[camera][constructor]") {
     Camera camera(Vector(1.0, 2.0, 3.0));
 
-    REQUIRE(camera.position().x() == 1.0);
-    REQUIRE(camera.position().y() == 2.0);
-    REQUIRE(camera.position().z() == 3.0);
+    REQUIRE(camera.getPosition().getX() == 1.0);
+    REQUIRE(camera.getPosition().getY() == 2.0);
+    REQUIRE(camera.getPosition().getZ() == 3.0);
 }
 
 // ---------- rayThroughCenter ----------
@@ -30,9 +30,9 @@ TEST_CASE("The center ray starts at the camera position", "[camera][ray]") {
 
     Ray ray = camera.rayThroughCenter();
 
-    REQUIRE(ray.getOrigin().x() == 1.0);
-    REQUIRE(ray.getOrigin().y() == 2.0);
-    REQUIRE(ray.getOrigin().z() == 3.0);
+    REQUIRE(ray.getOrigin().getX() == 1.0);
+    REQUIRE(ray.getOrigin().getY() == 2.0);
+    REQUIRE(ray.getOrigin().getZ() == 3.0);
 }
 
 TEST_CASE("The center ray points along +Z", "[camera][ray]") {
@@ -40,9 +40,9 @@ TEST_CASE("The center ray points along +Z", "[camera][ray]") {
 
     Ray ray = camera.rayThroughCenter();
 
-    REQUIRE(ray.getDirection().x() == 0.0);
-    REQUIRE(ray.getDirection().y() == 0.0);
-    REQUIRE(ray.getDirection().z() == 1.0);
+    REQUIRE(ray.getDirection().getX() == 0.0);
+    REQUIRE(ray.getDirection().getY() == 0.0);
+    REQUIRE(ray.getDirection().getZ() == 1.0);
 }
 
 // ---------- rayThroughPixel ----------
@@ -54,9 +54,9 @@ TEST_CASE("The ray through the center pixel points along +Z", "[camera][ray][pix
 
     Ray ray = camera.rayThroughPixel(2, 1, 5, 3);
 
-    REQUIRE(ray.getDirection().x() == 0.0);
-    REQUIRE(ray.getDirection().y() == 0.0);
-    REQUIRE(ray.getDirection().z() == 1.0);
+    REQUIRE(ray.getDirection().getX() == 0.0);
+    REQUIRE(ray.getDirection().getY() == 0.0);
+    REQUIRE(ray.getDirection().getZ() == 1.0);
 }
 
 TEST_CASE("The ray through the top right pixel points up and right", "[camera][ray][pixel]") {
@@ -64,9 +64,9 @@ TEST_CASE("The ray through the top right pixel points up and right", "[camera][r
 
     Ray ray = camera.rayThroughPixel(4, 0, 5, 3);
 
-    REQUIRE(ray.getDirection().x() == 2.0);
-    REQUIRE(ray.getDirection().y() == 1.0);
-    REQUIRE(ray.getDirection().z() == 1.0);
+    REQUIRE(ray.getDirection().getX() == 2.0);
+    REQUIRE(ray.getDirection().getY() == 1.0);
+    REQUIRE(ray.getDirection().getZ() == 1.0);
 }
 
 TEST_CASE("The ray through the bottom left pixel points down and left", "[camera][ray][pixel]") {
@@ -74,9 +74,9 @@ TEST_CASE("The ray through the bottom left pixel points down and left", "[camera
 
     Ray ray = camera.rayThroughPixel(0, 2, 5, 3);
 
-    REQUIRE(ray.getDirection().x() == -2.0);
-    REQUIRE(ray.getDirection().y() == -1.0);
-    REQUIRE(ray.getDirection().z() == 1.0);
+    REQUIRE(ray.getDirection().getX() == -2.0);
+    REQUIRE(ray.getDirection().getY() == -1.0);
+    REQUIRE(ray.getDirection().getZ() == 1.0);
 }
 
 TEST_CASE("The ray through a pixel starts at the camera position", "[camera][ray][pixel]") {
@@ -84,9 +84,9 @@ TEST_CASE("The ray through a pixel starts at the camera position", "[camera][ray
 
     Ray ray = camera.rayThroughPixel(4, 0, 5, 3);
 
-    REQUIRE(ray.getOrigin().x() == 0.0);
-    REQUIRE(ray.getOrigin().y() == 0.0);
-    REQUIRE(ray.getOrigin().z() == -1.0);
+    REQUIRE(ray.getOrigin().getX() == 0.0);
+    REQUIRE(ray.getOrigin().getY() == 0.0);
+    REQUIRE(ray.getOrigin().getZ() == -1.0);
 }
 
 // Camera at (0, 0, -1), screen at z = 0, 2 units wide.
@@ -98,15 +98,15 @@ TEST_CASE("With a 2 unit screen and a 512 x 256 image, the corner rays go throug
 
     // Top-left pixel centre: x = (0.5 - 256) / 256, y = (128 - 0.5) / 256.
     Ray topLeft = camera.rayThroughPixel(0, 0, 512, 256);
-    REQUIRE(topLeft.getDirection().x() == -0.998046875);
-    REQUIRE(topLeft.getDirection().y() == 0.498046875);
-    REQUIRE(topLeft.getDirection().z() == 1.0);
+    REQUIRE(topLeft.getDirection().getX() == -0.998046875);
+    REQUIRE(topLeft.getDirection().getY() == 0.498046875);
+    REQUIRE(topLeft.getDirection().getZ() == 1.0);
 
     // Bottom-right pixel centre: x = (511.5 - 256) / 256, y = (128 - 255.5) / 256.
     Ray bottomRight = camera.rayThroughPixel(511, 255, 512, 256);
-    REQUIRE(bottomRight.getDirection().x() == 0.998046875);
-    REQUIRE(bottomRight.getDirection().y() == -0.498046875);
-    REQUIRE(bottomRight.getDirection().z() == 1.0);
+    REQUIRE(bottomRight.getDirection().getX() == 0.998046875);
+    REQUIRE(bottomRight.getDirection().getY() == -0.498046875);
+    REQUIRE(bottomRight.getDirection().getZ() == 1.0);
 }
 
 // ---------- trace ----------
@@ -121,9 +121,9 @@ TEST_CASE("Tracing a ray that hits the sphere gives the sphere's colour", "[came
 
     Colour colour = camera.trace(ray, scene);
 
-    REQUIRE(colour.r() == 0.0);
-    REQUIRE(colour.g() == 1.0);
-    REQUIRE(colour.b() == 0.0);
+    REQUIRE(colour.getR() == 0.0);
+    REQUIRE(colour.getG() == 1.0);
+    REQUIRE(colour.getB() == 0.0);
 }
 
 TEST_CASE("Tracing a ray with a Lambert sphere lit from the side darkens the colour", "[camera][trace]") {
@@ -137,9 +137,9 @@ TEST_CASE("Tracing a ray with a Lambert sphere lit from the side darkens the col
 
     Colour colour = camera.trace(ray, scene);
 
-    REQUIRE(colour.r() == 0.0);
-    REQUIRE(colour.g() == 0.0);
-    REQUIRE(colour.b() == 0.0);
+    REQUIRE(colour.getR() == 0.0);
+    REQUIRE(colour.getG() == 0.0);
+    REQUIRE(colour.getB() == 0.0);
 }
 
 TEST_CASE("Tracing a ray that misses the sphere gives black", "[camera][trace]") {
@@ -151,9 +151,9 @@ TEST_CASE("Tracing a ray that misses the sphere gives black", "[camera][trace]")
 
     Colour colour = camera.trace(ray, scene);
 
-    REQUIRE(colour.r() == 0.0);
-    REQUIRE(colour.g() == 0.0);
-    REQUIRE(colour.b() == 0.0);
+    REQUIRE(colour.getR() == 0.0);
+    REQUIRE(colour.getG() == 0.0);
+    REQUIRE(colour.getB() == 0.0);
 }
 
 // ---------- render ----------
@@ -166,8 +166,8 @@ TEST_CASE("Rendering gives an image of the requested size", "[camera][render]") 
 
     Image image = camera.render(scene, 4, 3);
 
-    REQUIRE(image.width() == 4);
-    REQUIRE(image.height() == 3);
+    REQUIRE(image.getWidth() == 4);
+    REQUIRE(image.getHeight() == 3);
 }
 
 TEST_CASE("Rendering a sphere in front of the camera colours the centre red and the corners black", "[camera][render]") {
@@ -178,7 +178,7 @@ TEST_CASE("Rendering a sphere in front of the camera colours the centre red and 
 
     Image image = camera.render(scene, 5, 5);
 
-    REQUIRE(image.pixel(2, 2).r() == 1.0);
-    REQUIRE(image.pixel(0, 0).r() == 0.0);
-    REQUIRE(image.pixel(4, 4).r() == 0.0);
+    REQUIRE(image.getPixel(2, 2).getR() == 1.0);
+    REQUIRE(image.getPixel(0, 0).getR() == 0.0);
+    REQUIRE(image.getPixel(4, 4).getR() == 0.0);
 }

@@ -12,9 +12,9 @@ public:
     Vector(double x, double y, double z);
 
     // Components.
-    double x() const;
-    double y() const;
-    double z() const;
+    double getX() const;
+    double getY() const;
+    double getZ() const;
 
     // Component-wise sum and difference: v1 + v2, v1 - v2.
     Vector operator+(const Vector& other) const;

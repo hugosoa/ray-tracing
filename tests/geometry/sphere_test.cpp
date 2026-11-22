@@ -17,22 +17,22 @@
 TEST_CASE("A sphere keeps the center it was created with", "[sphere][constructor]") {
     Sphere sphere(Vector(1.0, 2.0, 3.0), 4.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0)));
 
-    REQUIRE(sphere.center().x() == 1.0);
-    REQUIRE(sphere.center().y() == 2.0);
-    REQUIRE(sphere.center().z() == 3.0);
+    REQUIRE(sphere.getCenter().getX() == 1.0);
+    REQUIRE(sphere.getCenter().getY() == 2.0);
+    REQUIRE(sphere.getCenter().getZ() == 3.0);
 }
 
 TEST_CASE("A sphere keeps the radius it was created with", "[sphere][constructor]") {
     Sphere sphere(Vector(1.0, 2.0, 3.0), 4.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0)));
 
-    REQUIRE(sphere.radius() == 4.0);
+    REQUIRE(sphere.getRadius() == 4.0);
 }
 
 TEST_CASE("A sphere keeps the material it was created with", "[sphere][constructor]") {
     auto material = std::make_shared<FlatShader>(Colour(0.25, 0.5, 0.75));
     Sphere sphere(Vector(1.0, 2.0, 3.0), 4.0, material);
 
-    REQUIRE(&sphere.material() == material.get());
+    REQUIRE(&sphere.getMaterial() == material.get());
 }
 
 // ---------- hit ----------
@@ -91,9 +91,9 @@ TEST_CASE("The hit point is where the ray enters the sphere", "[sphere][hit][hit
     std::optional<HitInfo> hit = sphere.hit(ray);
 
     REQUIRE(hit.has_value());
-    REQUIRE(hit->point.x() == 0.0);
-    REQUIRE(hit->point.y() == 0.0);
-    REQUIRE(hit->point.z() == -1.0);
+    REQUIRE(hit->point.getX() == 0.0);
+    REQUIRE(hit->point.getY() == 0.0);
+    REQUIRE(hit->point.getZ() == -1.0);
 }
 
 TEST_CASE("The hit point does not depend on the length of the ray direction", "[sphere][hit][hitinfo]") {
@@ -103,9 +103,9 @@ TEST_CASE("The hit point does not depend on the length of the ray direction", "[
     std::optional<HitInfo> hit = sphere.hit(ray);
 
     REQUIRE(hit.has_value());
-    REQUIRE(hit->point.x() == 0.0);
-    REQUIRE(hit->point.y() == 0.0);
-    REQUIRE(hit->point.z() == Catch::Approx(-1.0));
+    REQUIRE(hit->point.getX() == 0.0);
+    REQUIRE(hit->point.getY() == 0.0);
+    REQUIRE(hit->point.getZ() == Catch::Approx(-1.0));
 }
 
 TEST_CASE("A ray starting inside the sphere hits it where it leaves", "[sphere][hit][hitinfo]") {
@@ -116,7 +116,7 @@ TEST_CASE("A ray starting inside the sphere hits it where it leaves", "[sphere][
 
     // The entry point (t = -5) is behind the ray, so the closest non negative t is the exit point.
     REQUIRE(hit.has_value());
-    REQUIRE(hit->point.z() == 5.0);
+    REQUIRE(hit->point.getZ() == 5.0);
 }
 
 TEST_CASE("The normal points from the centre of the sphere to the hit point", "[sphere][hit][hitinfo]") {
@@ -126,9 +126,9 @@ TEST_CASE("The normal points from the centre of the sphere to the hit point", "[
     std::optional<HitInfo> hit = sphere.hit(ray);
 
     REQUIRE(hit.has_value());
-    REQUIRE(hit->normal.x() == 0.0);
-    REQUIRE(hit->normal.y() == 0.0);
-    REQUIRE(hit->normal.z() == -1.0);
+    REQUIRE(hit->normal.getX() == 0.0);
+    REQUIRE(hit->normal.getY() == 0.0);
+    REQUIRE(hit->normal.getZ() == -1.0);
 }
 
 TEST_CASE("The normal has length 1 even on a big sphere", "[sphere][hit][hitinfo]") {
@@ -139,9 +139,9 @@ TEST_CASE("The normal has length 1 even on a big sphere", "[sphere][hit][hitinfo
     std::optional<HitInfo> hit = sphere.hit(ray);
 
     REQUIRE(hit.has_value());
-    REQUIRE(hit->normal.x() == Catch::Approx(-1.0));
-    REQUIRE(hit->normal.y() == Catch::Approx(0.0));
-    REQUIRE(hit->normal.z() == Catch::Approx(0.0));
+    REQUIRE(hit->normal.getX() == Catch::Approx(-1.0));
+    REQUIRE(hit->normal.getY() == Catch::Approx(0.0));
+    REQUIRE(hit->normal.getZ() == Catch::Approx(0.0));
     REQUIRE(hit->normal.length() == Catch::Approx(1.0));
 }
 
@@ -177,7 +177,7 @@ TEST_CASE("A sphere can be hit through a Shape reference", "[sphere][shape]") {
     std::optional<HitInfo> hit = shape.hit(ray);
 
     REQUIRE(hit.has_value());
-    REQUIRE(hit->point.z() == 4.0);
+    REQUIRE(hit->point.getZ() == 4.0);
 }
 
 // ---------- t > 0: a ray never hits at its own origin ----------
@@ -201,5 +201,5 @@ TEST_CASE("A ray starting on the sphere and pointing inwards hits the other side
     std::optional<HitInfo> hit = sphere.hit(ray);
 
     REQUIRE(hit.has_value());
-    REQUIRE(hit->point.z() == 1.0);
+    REQUIRE(hit->point.getZ() == 1.0);
 }

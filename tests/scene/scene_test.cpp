@@ -29,9 +29,9 @@ TEST_CASE("The nearest hit is the plane in front of the sphere, even when added 
     REQUIRE(hit.has_value());
     REQUIRE(hit->t == 3.0);
     Colour colour = hit->material->shade(*hit, light);
-    REQUIRE(colour.r() == 0.0);
-    REQUIRE(colour.g() == 0.0);
-    REQUIRE(colour.b() == 1.0);
+    REQUIRE(colour.getR() == 0.0);
+    REQUIRE(colour.getG() == 0.0);
+    REQUIRE(colour.getB() == 1.0);
 }
 
 TEST_CASE("The nearest hit is the sphere in front of the plane, even when added first", "[scene][nearest]") {
@@ -47,9 +47,9 @@ TEST_CASE("The nearest hit is the sphere in front of the plane, even when added 
     REQUIRE(hit.has_value());
     REQUIRE(hit->t == 5.0);
     Colour colour = hit->material->shade(*hit, light);
-    REQUIRE(colour.r() == 1.0);
-    REQUIRE(colour.g() == 0.0);
-    REQUIRE(colour.b() == 0.0);
+    REQUIRE(colour.getR() == 1.0);
+    REQUIRE(colour.getG() == 0.0);
+    REQUIRE(colour.getB() == 0.0);
 }
 
 TEST_CASE("A ray that misses every shape gives no hit", "[scene][nearest]") {

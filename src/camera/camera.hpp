@@ -17,7 +17,7 @@ public:
     // Creates a camera at `position`, looking at a screen `screenWidth` wide.
     Camera(const Vector& position, double screenWidth = 2.0);
 
-    const Vector& position() const;
+    const Vector& getPosition() const;
 
     Ray rayThroughCenter() const;
 

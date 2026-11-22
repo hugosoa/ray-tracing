@@ -13,6 +13,6 @@ public:
     // Creates a point light at `position` with the given `colour`.
     Light(const Vector& position, const Colour& colour);
 
-    const Vector& position() const;
-    const Colour& colour() const;
+    const Vector& getPosition() const;
+    const Colour& getColour() const;
 };

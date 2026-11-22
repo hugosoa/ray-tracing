@@ -21,9 +21,9 @@ TEST_CASE("A Lambert shader gives the full colour when the light is straight alo
 
     Colour colour = shader.shade(hit, light);
 
-    REQUIRE(colour.r() == 0.25);
-    REQUIRE(colour.g() == 0.5);
-    REQUIRE(colour.b() == 0.75);
+    REQUIRE(colour.getR() == 0.25);
+    REQUIRE(colour.getG() == 0.5);
+    REQUIRE(colour.getB() == 0.75);
 }
 
 TEST_CASE("A Lambert shader scales the colour by the cosine of the angle to the light", "[material][lambert]") {
@@ -34,9 +34,9 @@ TEST_CASE("A Lambert shader scales the colour by the cosine of the angle to the 
 
     Colour colour = shader.shade(hit, light);
 
-    REQUIRE_THAT(colour.r(), WithinAbs(0.5, 1e-12));
-    REQUIRE_THAT(colour.g(), WithinAbs(0.5, 1e-12));
-    REQUIRE_THAT(colour.b(), WithinAbs(0.5, 1e-12));
+    REQUIRE_THAT(colour.getR(), WithinAbs(0.5, 1e-12));
+    REQUIRE_THAT(colour.getG(), WithinAbs(0.5, 1e-12));
+    REQUIRE_THAT(colour.getB(), WithinAbs(0.5, 1e-12));
 }
 
 TEST_CASE("A Lambert shader gives black when the light grazes the surface", "[material][lambert]") {
@@ -46,9 +46,9 @@ TEST_CASE("A Lambert shader gives black when the light grazes the surface", "[ma
 
     Colour colour = shader.shade(hit, light);
 
-    REQUIRE(colour.r() == 0.0);
-    REQUIRE(colour.g() == 0.0);
-    REQUIRE(colour.b() == 0.0);
+    REQUIRE(colour.getR() == 0.0);
+    REQUIRE(colour.getG() == 0.0);
+    REQUIRE(colour.getB() == 0.0);
 }
 
 TEST_CASE("A Lambert shader gives black when the light is behind the surface", "[material][lambert]") {
@@ -58,9 +58,9 @@ TEST_CASE("A Lambert shader gives black when the light is behind the surface", "
 
     Colour colour = shader.shade(hit, light);
 
-    REQUIRE(colour.r() == 0.0);
-    REQUIRE(colour.g() == 0.0);
-    REQUIRE(colour.b() == 0.0);
+    REQUIRE(colour.getR() == 0.0);
+    REQUIRE(colour.getG() == 0.0);
+    REQUIRE(colour.getB() == 0.0);
 }
 
 TEST_CASE("A Lambert shader does not depend on the distance to the light", "[material][lambert]") {
@@ -72,9 +72,9 @@ TEST_CASE("A Lambert shader does not depend on the distance to the light", "[mat
     Colour nearColour = shader.shade(hit, nearLight);
     Colour farColour = shader.shade(hit, farLight);
 
-    REQUIRE(nearColour.r() == farColour.r());
-    REQUIRE(nearColour.g() == farColour.g());
-    REQUIRE(nearColour.b() == farColour.b());
+    REQUIRE(nearColour.getR() == farColour.getR());
+    REQUIRE(nearColour.getG() == farColour.getG());
+    REQUIRE(nearColour.getB() == farColour.getB());
 }
 
 TEST_CASE("A Lambert shader multiplies the surface colour by the light colour", "[material][lambert]") {
@@ -84,9 +84,9 @@ TEST_CASE("A Lambert shader multiplies the surface colour by the light colour", 
 
     Colour colour = shader.shade(hit, light);
 
-    REQUIRE(colour.r() == 0.5);
-    REQUIRE(colour.g() == 0.5);
-    REQUIRE(colour.b() == 0.0);
+    REQUIRE(colour.getR() == 0.5);
+    REQUIRE(colour.getG() == 0.5);
+    REQUIRE(colour.getB() == 0.0);
 }
 
 TEST_CASE("A Lambert shader can be used through a Material reference", "[material][lambert]") {
@@ -97,7 +97,7 @@ TEST_CASE("A Lambert shader can be used through a Material reference", "[materia
 
     Colour colour = material.shade(hit, light);
 
-    REQUIRE(colour.r() == 0.0);
-    REQUIRE(colour.g() == 1.0);
-    REQUIRE(colour.b() == 0.0);
+    REQUIRE(colour.getR() == 0.0);
+    REQUIRE(colour.getG() == 1.0);
+    REQUIRE(colour.getB() == 0.0);
 }

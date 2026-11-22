@@ -5,7 +5,7 @@
 Camera::Camera(const Vector& position, double screenWidth)
     : _position(position), _screenWidth(screenWidth) {}
 
-const Vector& Camera::position() const { return _position; }
+const Vector& Camera::getPosition() const { return _position; }
 
 Ray Camera::rayThroughCenter() const {
     return Ray(_position, Vector(0.0, 0.0, 1.0));
@@ -29,7 +29,7 @@ Colour Camera::trace(Ray& ray, const Scene& scene) const {
     if (!hit) {
         return Colour(0, 0, 0);
     }
-    return hit->material->shade(*hit, scene.light());
+    return hit->material->shade(*hit, scene.getLight());
 }
 
 Image Camera::render(const Scene& scene, int imageWidth, int imageHeight) {

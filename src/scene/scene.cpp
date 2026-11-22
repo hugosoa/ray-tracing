@@ -4,7 +4,7 @@
 
 Scene::Scene(const Light& light) : _light(light) {}
 
-const Light& Scene::light() const { return _light; }
+const Light& Scene::getLight() const { return _light; }
 
 void Scene::add(std::unique_ptr<Shape> shape) { _shapes.push_back(std::move(shape)); }
 

@@ -7,8 +7,8 @@ Image::Image(unsigned int width, unsigned int height)
       _height(height),
       _pixels(static_cast<std::size_t>(width) * height, Colour(0.0, 0.0, 0.0)) {}
 
-unsigned int Image::width() const { return _width; }
-unsigned int Image::height() const { return _height; }
+unsigned int Image::getWidth() const { return _width; }
+unsigned int Image::getHeight() const { return _height; }
 
 std::size_t Image::index(unsigned int x, unsigned int y) const {
     if (x >= _width || y >= _height) {
@@ -17,7 +17,7 @@ std::size_t Image::index(unsigned int x, unsigned int y) const {
     return static_cast<std::size_t>(y) * _width + x;
 }
 
-const Colour& Image::pixel(unsigned int x, unsigned int y) const {
+const Colour& Image::getPixel(unsigned int x, unsigned int y) const {
     return _pixels[index(x, y)];
 }
 

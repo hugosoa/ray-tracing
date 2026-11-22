@@ -12,7 +12,7 @@ public:
     Colour(double r, double g, double b);
 
     // Components.
-    double r() const;
-    double g() const;
-    double b() const;
+    double getR() const;
+    double getG() const;
+    double getB() const;
 };
