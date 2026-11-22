@@ -1,0 +1,23 @@
+# Builds the project and runs the tests, as decided in docs/adr/0004-github-actions-ci.md.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    # Same image as the dev container (.devcontainer/devcontainer.json),
+    # so CI builds in the same environment as our machines.
+    container: mcr.microsoft.com/devcontainers/cpp:1-ubuntu-24.04
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: make build
+
+      - name: Test
+        run: make test
