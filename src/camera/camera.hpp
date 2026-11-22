@@ -19,15 +19,14 @@ public:
 
     const Vector& getPosition() const;
 
-    Ray rayThroughCenter() const;
-
-    Ray rayThroughPixel(int column, int row, int imageWidth, int imageHeight);
+    // Ray from the camera through the centre of pixel (column, row), on a screen at z = 0.
+    Ray rayThroughPixel(int column, int row, int imageWidth, int imageHeight) const;
 
     // Colour seen along `ray`: the nearest hit in `scene`, shaded by its material with the scene's light,
     // or black if the ray hits nothing.
-    Colour trace(Ray& ray, const Scene& scene) const;
+    Colour trace(const Ray& ray, const Scene& scene) const;
 
     // Renders `scene` into an image of imageWidth x imageHeight pixels.
-    Image render(const Scene& scene, int imageWidth, int imageHeight);
+    Image render(const Scene& scene, int imageWidth, int imageHeight) const;
 };
 

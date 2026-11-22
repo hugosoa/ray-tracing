@@ -114,9 +114,26 @@ TEST_CASE("A ray starting inside the sphere hits it where it leaves", "[sphere][
 
     std::optional<HitInfo> hit = sphere.hit(ray);
 
-    // The entry point (t = -5) is behind the ray, so the closest non negative t is the exit point.
+    // The entry point (t = -5) is behind the ray, so the closest t > 0 is the exit point.
     REQUIRE(hit.has_value());
     REQUIRE(hit->point.getZ() == 5.0);
+}
+
+TEST_CASE("A ray starting inside the sphere gets the exit point's t, point and outward normal", "[sphere][hit][hitinfo]") {
+    Sphere sphere(Vector(0.0, 0.0, 1.0), 5.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0)));
+    // a = 1, b = -4, c = -21: delta = 100, so t = -3 (behind) or t = 7 (where the ray leaves).
+    Ray ray(Vector(0.0, 0.0, -1.0), Vector(0.0, 0.0, 1.0));
+
+    std::optional<HitInfo> hit = sphere.hit(ray);
+
+    REQUIRE(hit.has_value());
+    REQUIRE(hit->t == 7.0);
+    REQUIRE(hit->point.getX() == 0.0);
+    REQUIRE(hit->point.getY() == 0.0);
+    REQUIRE(hit->point.getZ() == 6.0);
+    REQUIRE(hit->normal.getX() == 0.0);
+    REQUIRE(hit->normal.getY() == 0.0);
+    REQUIRE(hit->normal.getZ() == 1.0);
 }
 
 TEST_CASE("The normal points from the centre of the sphere to the hit point", "[sphere][hit][hitinfo]") {

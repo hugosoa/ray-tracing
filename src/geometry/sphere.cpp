@@ -1,5 +1,4 @@
 #include "geometry/sphere.hpp"
-#include <algorithm>
 #include <cmath>
 #include <utility>
 
@@ -24,19 +23,19 @@ std::optional<HitInfo> Sphere::hit(const Ray& ray) const {
     double delta = b * b - 4 * a * c;
     if (delta < 0) { return std::nullopt; }
 
-    double t1 = (-b + sqrt(delta)) / (2 * a);
-    double t2 = (-b - sqrt(delta)) / (2 * a);
+    // a = D.D is positive, so tNear <= tFar: the ray enters the sphere at tNear and leaves it at tFar.
+    double sqrtDelta = std::sqrt(delta);
+    double tNear = (-b - sqrtDelta) / (2 * a);
+    double tFar = (-b + sqrtDelta) / (2 * a);
 
-    // Ignore t <= 0 (behind the ray, or at its origin), then keep the lowest of what is left.
+    // Keep the first t > 0 (t <= 0 is behind the ray, or at its origin).
     double t;
-    if (t1 > 0 && t2 > 0) {
-        t = std::min(t1, t2);
-    } else if (t1 > 0) {
-        t = t1;
-    } else if (t2 > 0) {
-        t = t2;
+    if (tNear > 0) {
+        t = tNear;  // the ray starts outside: it enters the sphere
+    } else if (tFar > 0) {
+        t = tFar;   // the ray starts inside: it leaves the sphere
     } else {
-        return std::nullopt;
+        return std::nullopt;  // the sphere is behind the ray
     }
 
     Vector point = ray.at(t);

@@ -7,12 +7,7 @@ Camera::Camera(const Vector& position, double screenWidth)
 
 const Vector& Camera::getPosition() const { return _position; }
 
-Ray Camera::rayThroughCenter() const {
-    return Ray(_position, Vector(0.0, 0.0, 1.0));
-}
-
-Ray Camera::rayThroughPixel(int column, int row, int imageWidth, int imageHeight) {
-
+Ray Camera::rayThroughPixel(int column, int row, int imageWidth, int imageHeight) const {
     double pixelSize = _screenWidth / imageWidth;
 
     double x = ((column + 0.5) - (imageWidth / 2.0)) * pixelSize;
@@ -24,7 +19,7 @@ Ray Camera::rayThroughPixel(int column, int row, int imageWidth, int imageHeight
     return Ray(_position, direction);
 }
 
-Colour Camera::trace(Ray& ray, const Scene& scene) const {
+Colour Camera::trace(const Ray& ray, const Scene& scene) const {
     std::optional<HitInfo> hit = scene.nearestHit(ray);
     if (!hit) {
         return Colour(0, 0, 0);
@@ -32,7 +27,7 @@ Colour Camera::trace(Ray& ray, const Scene& scene) const {
     return hit->material->shade(*hit, scene.getLight());
 }
 
-Image Camera::render(const Scene& scene, int imageWidth, int imageHeight) {
+Image Camera::render(const Scene& scene, int imageWidth, int imageHeight) const {
     Image image(imageWidth, imageHeight);
 
     for (int row = 0; row < imageHeight; ++row) {

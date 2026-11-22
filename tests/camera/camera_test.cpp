@@ -23,28 +23,6 @@ TEST_CASE("A camera keeps the position it was created with", "[camera][construct
     REQUIRE(camera.getPosition().getZ() == 3.0);
 }
 
-// ---------- rayThroughCenter ----------
-
-TEST_CASE("The center ray starts at the camera position", "[camera][ray]") {
-    Camera camera(Vector(1.0, 2.0, 3.0));
-
-    Ray ray = camera.rayThroughCenter();
-
-    REQUIRE(ray.getOrigin().getX() == 1.0);
-    REQUIRE(ray.getOrigin().getY() == 2.0);
-    REQUIRE(ray.getOrigin().getZ() == 3.0);
-}
-
-TEST_CASE("The center ray points along +Z", "[camera][ray]") {
-    Camera camera(Vector(1.0, 2.0, 3.0));
-
-    Ray ray = camera.rayThroughCenter();
-
-    REQUIRE(ray.getDirection().getX() == 0.0);
-    REQUIRE(ray.getDirection().getY() == 0.0);
-    REQUIRE(ray.getDirection().getZ() == 1.0);
-}
-
 // ---------- rayThroughPixel ----------
 // Camera at (0, 0, -1), screen at z = 0, 5 units wide.
 // Image of 5 columns x 3 rows, so each pixel is 1 unit wide.
@@ -181,4 +159,21 @@ TEST_CASE("Rendering a sphere in front of the camera colours the centre red and 
     REQUIRE(image.getPixel(2, 2).getR() == 1.0);
     REQUIRE(image.getPixel(0, 0).getR() == 0.0);
     REQUIRE(image.getPixel(4, 4).getR() == 0.0);
+}
+
+// ---------- const ----------
+// Making rays, tracing and rendering only read the camera and the ray: they work on const ones.
+
+TEST_CASE("A const camera can make rays, trace a const ray and render", "[camera][const]") {
+    const Camera camera(Vector(0.0, 0.0, -1.0), 2.0);
+    Light light(Vector(0.0, 0.0, -1.0), Colour(1.0, 1.0, 1.0));
+    Scene scene(light);
+    scene.add(std::make_unique<Sphere>(Vector(0.0, 0.0, 5.0), 1.0, std::make_shared<FlatShader>(Colour(1.0, 0.0, 0.0))));
+
+    const Ray ray = camera.rayThroughPixel(2, 2, 5, 5);
+    Colour colour = camera.trace(ray, scene);
+    Image image = camera.render(scene, 5, 5);
+
+    REQUIRE(colour.getR() == 1.0);
+    REQUIRE(image.getPixel(2, 2).getR() == 1.0);
 }

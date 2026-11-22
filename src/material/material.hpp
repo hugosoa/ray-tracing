@@ -14,6 +14,7 @@ public:
     virtual ~Material() = default;
 
     // Colour of the surface at the point described by `hit`, lit by `light`.
+    // `hit.normal` has length 1: every Shape promises it (see geometry/shape.hpp).
     // Implemented by each subclass.
     virtual Colour shade(const HitInfo& hit, const Light& light) const = 0;
 };

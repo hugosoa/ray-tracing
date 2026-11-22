@@ -1,15 +1,15 @@
 #include <iostream>
 #include <memory>
-#include <math/vector.hpp>
-#include <geometry/sphere.hpp>
-#include <geometry/plane.hpp>
-#include <scene/scene.hpp>
-#include <colour/colour.hpp>
-#include <material/lambert_shader.hpp>
-#include <light/light.hpp>
-#include <camera/camera.hpp>
-#include <image/image.hpp>
-#include <io/png_saver.hpp>
+#include "math/vector.hpp"
+#include "geometry/sphere.hpp"
+#include "geometry/plane.hpp"
+#include "scene/scene.hpp"
+#include "colour/colour.hpp"
+#include "material/lambert_shader.hpp"
+#include "light/light.hpp"
+#include "camera/camera.hpp"
+#include "image/image.hpp"
+#include "io/png_saver.hpp"
 
 int main() {
     std::cout << "Hello, Raytracer!\n";
@@ -23,7 +23,7 @@ int main() {
     Light light(Vector(-10, 10, -5), Colour(1, 1, 1));
     Scene scene(light);
 
-    // Sphere, centre, rayon et materiau
+    // Yellow sphere: centre, radius and material.
     auto yellow = std::make_shared<LambertShader>(Colour(1, 1, 0));
     scene.add(std::make_unique<Sphere>(Vector(0, 0, 9), 5, yellow));
 
